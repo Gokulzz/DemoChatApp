@@ -3,6 +3,7 @@ using app.BLL.DTO;
 using app.BLL.Services;
 using app.DAL.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace app.PLA.Controllers
@@ -46,6 +47,12 @@ namespace app.PLA.Controllers
         {
             var delete_User = await userService.DeleteUser(id);
             return delete_User;
+        }
+        [HttpPatch("UpdateUserPatch")]
+        public async Task<ApiResponse> UpdateUserPatch(int id,[FromBody] JsonPatchDocument patch)
+        {
+            var update_user = await userService.PatchUpdateUser(id, patch); 
+            return update_user; 
         }
     }
        

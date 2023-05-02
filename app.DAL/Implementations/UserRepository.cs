@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using app.DAL.Model;
 using app.DAL.Repositories;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.VisualBasic;
@@ -23,6 +24,13 @@ namespace app.DAL.Implementations
         {
             var search_Name = await context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
             return search_Name;
+        }
+        public async Task<User> UpdateUserPatch(int id, JsonPatchDocument patchDocument)
+        {
+            var search_id = await context.Users.FindAsync(id);
+            patchDocument.ApplyTo(search_id);
+            await context.SaveChangesAsync();
+            return search_id;
         }
        
             

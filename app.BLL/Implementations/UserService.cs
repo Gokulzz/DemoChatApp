@@ -15,6 +15,7 @@ using app.DAL.Model;
 using app.DAL.Repositories;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
@@ -90,6 +91,19 @@ namespace app.BLL.Implementations
         public async Task<ApiResponse> UpdateUser(UserDTO userDTO)
         {
             throw new NotImplementedException();
+        }
+        public async Task<ApiResponse> PatchUpdateUser(int id, JsonPatchDocument patch)
+        {
+            try
+            {
+                var updated_user = await unitofWork.userRepository.UpdateUserPatch(id, patch);
+                return new ApiResponse(200, "User Updated Successfully", updated_user);
+            }
+            catch(Exception ex)
+            {
+                throw new BadRequestException(ex.Message);  
+            }
+
         }
         public async Task<ApiResponse> DeleteUser(int id)
         {
