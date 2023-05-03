@@ -80,11 +80,12 @@ try
     builder.Services.AddSwaggerGenNewtonsoftSupport();
 
     var app = builder.Build();
+    app.UseSwagger();
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
-        app.UseSwagger();
+        
         app.UseSwaggerUI(options =>
         {
             options.SwaggerEndpoint("/swagger/V1/swagger.json", "ChatApp WebAPI");
